@@ -5,17 +5,15 @@
 # Note: This script is tested on Ubuntu. Feel free to modify it for your OS. Consider submitting a PR if you make it work on another OS.
 #
 
-RC_FILE="$HOME/.bashrc"
+RC_FILE={$1:-$HOME/.bashrc}
 
 
 #
-# Make
+# Just
 #
-which make > /dev/null || {
-    echo "Installing Make";
-    sudo apt-get update
-    sudo apt-get install -y make
-} && echo "Make installed."
+which just > /dev/null || {
+    curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/local/bin
+} && echo "just installed."
 
 #
 # unzip 
