@@ -1,5 +1,9 @@
 set dotenv-load
 set dotenv-path := "../../.env"
+default: list
 
 all:
     terragrunt apply-all
+
+list:
+    just --list
