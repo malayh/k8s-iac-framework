@@ -33,7 +33,7 @@ resource "aws_iam_role_policy_attachment" "nodes-AmazonEBSCSIDriverPolicy" {
 }
 
 resource "aws_security_group" "eks_nodes_sg" {
-  vpc_id      = aws_vpc.main_vpc.id
+  vpc_id      = var.vpc_id
   name_prefix = "${local.cluster_name}-nodes-sg-"
 }
 
@@ -90,11 +90,16 @@ resource "aws_eks_node_group" "node_groups" {
     min_size     = max(each.value.count - 1, 1)
   }
 
-  taint {
-    key    = try(each.value.taint.key, null)
-    value  = try(each.value.taint.value, null)
-    effect = try(each.value.taint.effect, null)
+  dynamic "taint" {
+    for_each = each.value.taint
+    content {
+      key    = taint.value.key
+      value  = taint.value.value
+      effect = taint.value.effect
+    }
   }
+
+
 
   update_config {
     max_unavailable = 1

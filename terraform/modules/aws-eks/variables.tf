@@ -27,10 +27,10 @@ variable "node_groups" {
   type = map(object({
     instance_type = string
     count         = number
-    taint = optional(object({
+    taint = optional(list(object({
       key    = string
       value  = string
       effect = string
-    }))
+    })), [])
   }))
 }
