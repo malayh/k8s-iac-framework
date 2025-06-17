@@ -1,6 +1,11 @@
 set dotenv-load
 set dotenv-path := "../../.env"
+set positional-arguments
+
 default: list
+
+t args:
+    terragrunt "$@"
 
 all:
     terragrunt apply-all
