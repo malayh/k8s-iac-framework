@@ -10,6 +10,13 @@ resource "aws_nat_gateway" "nat_gateway" {
   tags = {
     Name = "${local.vpc_name}-nat-gateway"
   }
+
+  lifecycle {
+    precondition {
+      condition     = !(var.enable_nat_gateway && var.enable_nat_instance)
+      error_message = "You cannot enable both NAT Gateway and NAT Instance at the same time."
+    }
+  }
 }
 resource "aws_route" "nat_gateway_route" {
   count                  = var.enable_nat_gateway ? 1 : 0

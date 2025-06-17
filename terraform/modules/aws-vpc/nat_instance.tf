@@ -36,9 +36,9 @@ resource "aws_security_group" "nat_sg" {
 }
 
 resource "aws_instance" "nat_instance" {
-  count         = var.enable_nat_instance ? 1 : 0
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.nano"
+  count                       = var.enable_nat_instance ? 1 : 0
+  ami                         = data.aws_ami.ubuntu.id
+  instance_type               = "t2.nano"
   subnet_id                   = aws_subnet.public_subnets[0].id
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.nat_sg[0].id]
@@ -61,6 +61,11 @@ EOF
 
   lifecycle {
     ignore_changes = [ami]
+
+    precondition {
+      condition     = !(var.enable_nat_gateway && var.enable_nat_instance)
+      error_message = "You cannot enable both NAT Gateway and NAT Instance at the same time."
+    }
   }
 }
 

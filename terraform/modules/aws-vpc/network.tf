@@ -35,7 +35,7 @@ resource "aws_subnet" "public_subnets" {
   cidr_block        = element(local.public_network_cidrs, count.index)
   availability_zone = element(local.azs_to_use, count.index)
 
-   tags = {
+  tags = {
     Name = "${local.vpc_name}-public-${count.index + 1}"
   }
 }
