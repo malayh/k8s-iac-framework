@@ -1,0 +1,4 @@
+cloud: "aws"
+letsencrypt:
+  enabled: true
+  email: "changethis@gmail.com"
