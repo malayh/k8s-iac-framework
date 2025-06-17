@@ -16,5 +16,9 @@ ingress:
 install: cert-manager ingress
     helm upgrade --install {{release}} . --create-namespace --namespace {{release}} \
     --set letsencrypt.email="$LETSENCRYPT_EMAIL" 
+get-ingress-endpont:
+    kubectl get svc -n ingress-nginx ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' && echo
+     
+
 setns:
     kubectl config set-context --current --namespace={{release}}
