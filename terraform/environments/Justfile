@@ -1,0 +1,4 @@
+set dotenv-load
+
+all:
+    terragrunt apply-all 
