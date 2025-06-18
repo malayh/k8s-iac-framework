@@ -1,0 +1,9 @@
+dependencies:
+- name: cloudnative-pg
+  repository: https://cloudnative-pg.github.io/charts
+  version: 0.24.0
+- name: opensearch-operator
+  repository: https://opensearch-project.github.io/opensearch-k8s-operator/
+  version: 2.7.0
+digest: sha256:c04f185a245ef26bdb055c4180d6311cf5ac7960be79d7ba64c6b08f02635d6a
+generated: "2025-06-18T08:56:11.9406627+05:30"

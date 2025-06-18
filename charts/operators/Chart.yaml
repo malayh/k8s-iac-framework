@@ -1,0 +1,16 @@
+apiVersion: v2
+name: operators
+description: operators for the cluster
+type: application
+version: 1.0.0
+
+dependencies:
+  - name: cloudnative-pg
+    version: 0.24.0
+    repository: https://cloudnative-pg.github.io/charts
+    condition: cloudnative-pg.enabled
+  - name: opensearch-operator
+    version: 2.7.0
+    repository: https://opensearch-project.github.io/opensearch-k8s-operator/
+    condition: opensearch-operator.enabled
+    

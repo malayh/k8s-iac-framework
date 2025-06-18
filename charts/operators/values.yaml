@@ -1,0 +1,13 @@
+cloudnative-pg:
+  enabled: false
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 100Mi
+
+opensearch-operator:
+  enabled: false
+  fullnameOverride: "os-operator"
