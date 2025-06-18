@@ -136,3 +136,13 @@ which safehelm > /dev/null || {
     chmod +x safehelm
     sudo mv safehelm /usr/local/bin/safehelm
 } && echo "Safe helm script installed."
+
+#
+# sops
+#
+which sops > /dev/null || {
+    echo "Installing sops";
+    curl -LO https://github.com/getsops/sops/releases/download/v3.10.2/sops-v3.10.2.linux.amd64
+    sudo mv sops-v3.10.2.linux.amd64 /usr/local/bin/sops
+    sudo chmod +x /usr/local/bin/sops
+} && echo "sops installed."
