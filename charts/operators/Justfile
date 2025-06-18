@@ -1,10 +1,2 @@
+import '../Justfile'
 release := "operators"
-
-update-dependencies:
-    helm dependency update
-    
-install:
-    safehelm install {{release}} . --create-namespace --namespace {{release}}
-
-setns:
-    kubectl config set-context --current --namespace={{release}}

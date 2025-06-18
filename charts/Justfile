@@ -1,0 +1,12 @@
+update-dependencies:
+    helm dependency update
+    
+install:
+    safehelm install {{release}} . --create-namespace --namespace {{release}}
+
+setns:
+    kubectl config set-context --current --namespace={{release}}
+
+sops-lock file:
+    # Use this to lock a new values file in place
+    sops -e -i $1
