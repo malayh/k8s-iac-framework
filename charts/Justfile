@@ -1,8 +1,13 @@
+set positional-arguments
+
 update-dependencies:
     helm dependency update
     
 install:
     safehelm install {{release}} . --create-namespace --namespace {{namespace}}
+
+upgrade:
+    safehelm upgrade {{release}} . --namespace {{namespace}}
 
 setns:
     kubectl config set-context --current --namespace={{namespace}}

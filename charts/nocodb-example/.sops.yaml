@@ -1,0 +1,4 @@
+creation_rules:
+  - encrypted_regex: "(password|secret|key|token|hash|credential)"
+    path_regex: 'valuefiles/.*\.yaml$'
+    kms: 'arn:aws:kms:ap-south-1:211125442766:alias/sops-key' # Change this to your KMS key ARN

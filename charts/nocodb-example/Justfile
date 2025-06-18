@@ -1,0 +1,5 @@
+
+import '../Justfile'
+
+release := 'nocodb'
+namespace := 'nocodb'

@@ -1,0 +1,29 @@
+postgres:
+    dbname: nocodb
+    username: nocodb
+    password: ENC[AES256_GCM,data:+Va+J1onxMbSjcSfnnvDyw==,iv:H0NJLqJFfuBjymkXrAShdF3zirD5QQNSWJy0Bw0+xJs=,tag:fe1AqR8OxtADHVttyVLFcg==,type:str]
+    persistence:
+        storageClass: ebs-gp3
+        size: 1Gi
+    resources:
+        requests:
+            cpu: 100m
+            memory: 512Mi
+        limits:
+            cpu: 500m
+            memory: 1Gi
+server:
+    ingress:
+        class: nginx
+        issuer: letsencrypt-nginx
+        host: noco.test.osuite.cloud
+sops:
+    kms:
+        - arn: arn:aws:kms:ap-south-1:211125442766:alias/sops-key
+          created_at: "2025-06-18T07:38:54Z"
+          enc: AQICAHhlQrZGoQNjXAD6sXJ7pJstQsqjGqD6qTQZaH8fIXcIcwHJJqaZtruU06lXi+67nZQxAAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMTh9GfHY/nuD+TFmIAgEQgDue22h+vNGoV5GjrGniRM/XAFHvfEGnQ4opDlfEk5OvX5M40RYIR9TbRt3Mu/BviSXW8QYzewZZrjZFfA==
+          aws_profile: ""
+    lastmodified: "2025-06-18T08:33:31Z"
+    mac: ENC[AES256_GCM,data:CzustjW5anY9EIPbafz+flVTcbIiSw+Gig7X/aR/ol6EiQHvAW2TR2mb+d6AA7h5ARousL3G9dTxRUq1UZBnyGQeaYAgbBlpaHxruKGChwKWD5b6U1xnUyC4IZZlGcfTCHxv+IaQuOLDAK2YfPsR9xzfHTKo1rTtC1Sz+Or1VwM=,iv:nfBbzjo2Ltdwp91BtlPouF8z/dHNLOWSUiwwPmm7Fmc=,tag:+ZpVta4olVJH0sbM6SzMbg==,type:str]
+    encrypted_regex: (password|secret|key|token|hash|credential)
+    version: 3.10.2

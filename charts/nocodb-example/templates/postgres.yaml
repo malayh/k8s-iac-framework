@@ -1,0 +1,20 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Release.Name }}-pg
+  namespace: {{ .Release.Namespace }}
+spec:
+  instances: 1
+  imageName:  {{ .Values.postgres.imageName }}
+  failoverDelay: 300
+  storage:
+    storageClass: {{ .Values.postgres.persistence.storageClass }}
+    size: {{ .Values.postgres.persistence.size }}
+  resources:
+    {{- toYaml .Values.postgres.resources | nindent 4 }}
+  bootstrap:
+    initdb:
+      database: {{ .Values.postgres.dbname }}
+      owner: {{ .Values.postgres.username }}
+      secret:
+        name: {{.Release.Name}}-db-secret

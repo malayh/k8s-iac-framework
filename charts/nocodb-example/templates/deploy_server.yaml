@@ -1,0 +1,29 @@
+{{- $dbHost := printf "%s-pg-rw.%s.svc.cluster.local" .Release.Name .Release.Namespace }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nocodb-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nocodb-{{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: nocodb-{{ .Release.Name }}
+    spec:
+      containers:
+        - name: nocodb
+          image: nocodb/nocodb:latest
+          imagePullPolicy: "IfNotPresent"
+          envFrom:
+            - secretRef:
+                name: {{.Release.Name}}-server-secret
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            {{- toYaml .Values.server.resources | nindent 12 }}
+

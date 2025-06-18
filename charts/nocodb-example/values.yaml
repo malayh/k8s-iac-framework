@@ -1,0 +1,29 @@
+postgres:
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.2
+  dbname: nocodb
+  username: nocodb
+  password: this-is-a-secret-password
+  persistence:
+    storageClass: "standard"
+    size: 10Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+server:
+  ingress:
+    enabled: false
+    class: nginx
+    issuer: letsencrypt-nginx
+    host: nocodb.example.com
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
