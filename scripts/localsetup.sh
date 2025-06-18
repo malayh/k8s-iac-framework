@@ -9,6 +9,15 @@ RC_FILE={$1:-$HOME/.bashrc}
 
 
 #
+# jq
+#
+which jq > /dev/null || {
+    echo "Installing jq";
+    sudo apt-get update
+    sudo apt-get install -y jq
+} && echo "jq installed."
+
+#
 # Just
 #
 which just > /dev/null || {
@@ -117,3 +126,13 @@ which aws > /dev/null || {
     rm -f awscliv2.zip
     rm -rf aws
 } && echo "AWS CLI installed."
+
+#
+# Safe helm script
+#
+which safehelm > /dev/null || {
+    echo "Installing safehelm script";
+    curl -o safehelm -sL https://raw.githubusercontent.com/malayh/k8s-iac-framework/refs/heads/main/scripts/safehelm.sh
+    chmod +x safehelm
+    sudo mv safehelm /usr/local/bin/safehelm
+} && echo "Safe helm script installed."

@@ -11,14 +11,14 @@ cert-manager:
 ingress:
     helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
     helm repo update
-    helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace --version 4.12.3 
+    safehelm upgrade --install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx --create-namespace --version 4.12.3 
 
 install: cert-manager ingress
     helm upgrade --install {{release}} . --create-namespace --namespace {{release}} \
     --set letsencrypt.email="$LETSENCRYPT_EMAIL" 
+
 get-ingress-endpont:
     kubectl get svc -n ingress-nginx ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' && echo
      
-
 setns:
     kubectl config set-context --current --namespace={{release}}

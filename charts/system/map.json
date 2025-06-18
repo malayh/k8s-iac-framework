@@ -1,0 +1,3 @@
+{
+    "arn:aws:eks:ap-south-1:211125442766:cluster/stage-cluster//ingress-nginx" : "valuefiles/values.ingress.yaml"
+}
