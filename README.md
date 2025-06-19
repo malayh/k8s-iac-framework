@@ -1,5 +1,11 @@
 # k8s-iac-framework
-`k8s-iac-framework` is a framework to setup k8s clusters and manage applications running on them. This is ideal when you need to operate multiple k8s clusters with many apps running on each cluster. The purpose of this is to standardize operations and lifecycle management of clusters and the apps running on them.
+[![maintained by Osuite.io](https://img.shields.io/badge/maintained%20by-osuite.io-%235849a6.svg)](https://osuite.io/)
+![License](https://img.shields.io/github/license/malayh/k8s-iac-framework.svg)
+![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?logo=kubernetes&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?e&logo=amazon-aws&logoColor=white)
+
+
+`k8s-iac-framework` is a simple framework to setup Kubernetes clusters and manage applications running on them. This is ideal when you need to operate multiple k8s clusters with many apps running on each cluster. The purpose of this is to standardize operations and lifecycle management of clusters and the apps running on them.
 
 Following is what it does:
 * Creation of k8s clusters using opentofu and terragrunt
