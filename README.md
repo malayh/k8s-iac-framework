@@ -5,7 +5,7 @@
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?e&logo=amazon-aws&logoColor=white)
 
 
-`k8s-iac-framework` is a simple framework to setup Kubernetes clusters and manage applications running on them. This is ideal when you need to operate multiple k8s clusters with many apps running on each cluster. The purpose of this is to standardize operations and lifecycle management of clusters and the apps running on them.
+`k8s-iac-framework` is a simple framework to setup Kubernetes clusters and manage applications running on them. This is ideal when you need to operate multiple k8s clusters with many apps running on each cluster. The purpose of this is to standardize operations, configuration and lifecycle management of clusters and the apps running on them.
 
 Following is what it does:
 * Creation of k8s clusters using opentofu and terragrunt
@@ -15,7 +15,7 @@ Following is what it does:
 * Creates a standard structure for your infra code repository.
 
 # Usage
-This repository provides a framework for setting up Kubernetes clusters and managing applications using Helm charts, Terraform. Here is how to use it.
+To setup a fresh repository with the framework do the following:
 
 1. Create a repository for your infra code. eg. `my-infra-repo`
 2. Inside `my-infra-repo`, run 
@@ -40,6 +40,8 @@ curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/malayh/k8
    * Update `charts/operators/map.json` file to use your cluster
    * `cd charts/operators && just setns && just install`
 9. Create charts for your backend: Follow instructions here: [How to run your apps](#how-to-run-your-apps)
+
+Note: The terraform code included works with AWS EKS clusters. We will be adding other clouds here soon. Till then you can add your own terraform modules to create clusters on other cloud providers. 
 
 # Tools and concepts
 The project uses `helm`, `just`, `sops`, `tofu`, `terragrunt`, `kubectl` and `aws`. 
