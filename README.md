@@ -54,7 +54,14 @@
     * System chart
     * Operator chart
 
+# Usage
+This repository provides a framework for setting up Kubernetes clusters and managing applications using Helm charts, Terraform. Here is how to use it.
 
+1. Create a repository for your infra code. eg. `my-infra-repo`
+2. Inside `my-infra-repo`, run 
+```
+curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/malayh/k8s-iac-framework/main/scripts/setup.sh | bash
+```
 
 # Tools and concepts
 The project uses `helm`, `just`, `sops`, `tofu`, `terragrunt`, `kubectl` and `aws`. 
