@@ -7,7 +7,6 @@ which ! aws &> /dev/null && {
 
 BUCKET_NAME="${1}"
 REGION="${2}"
-RC_FILE="${3}"
 
 aws s3api create-bucket --bucket $BUCKET_NAME --create-bucket-configuration LocationConstraint=$REGION 
 aws s3api put-bucket-versioning --bucket $BUCKET_NAME --versioning-configuration Status=Enabled
