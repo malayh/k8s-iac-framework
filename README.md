@@ -1,58 +1,12 @@
-* Tools installation
-* Terraform infra
-* Sytsem charts
-* App example with SOP
-* Cohesive script to tie it all together
+# k8s-iac-framework
+`k8s-iac-framework` is a framework to setup k8s clusters and manage applications running on them. This is ideal when you need to operate multiple k8s clusters with many apps running on each cluster. The purpose of this is to standardize operations and lifecycle management of clusters and the apps running on them.
 
-# Install setup
-* Install tools
-* Install tofu stuff
-* Connect to k8s cluster
-* Install system chart
-* Install operators
-* Map DNS records to ingress endpoint
-* Install apps
-
-
-# How to setup sops
-* Create KMS key
-* Add user to the key 
-
-
-# Outline
-* Why this repo?
-   * Framework for setting up k8s clusters with tools to operate the clusters 
-* What is in this repo?
-   * Terraform code to setup k8s clusters. It uses terragrunt to manage mutiple environments
-   * `safehelm`, customer wrapper around helm to manage secrets and multiple environments seemslessly
-   * Chart to setup system components: storage, ingress and certificate management
-   * Chart to setup operators
-   * Justfiles to standardize lifecycle management of the clusters and apps
-
-* How to use this repo?
-   * Install tools 
-   * Setup aws credentials, KMS keys, tf state bucket
-   * Setup k8s cluster
-   * Install system charts
-   * Install operators
-
-* How to add an app?
-   * Create a new chart
-   * Create a new Justfile as shown in the example
-   * Create a `.sops.yaml` file to manage secrets
-   * Create `maps.yaml` file to manage different k8s clusters
-   * Create the default `values.yaml` file. 
-   * Create the `valuefiles/values.<env>.yaml` file and map it to the `cluster//namespace` in the `maps.yaml` file
-   * `just install`
-
-
-* Concepts
-    * `safehelm` - a wrapper around helm to manage secrets and multiple environments
-       * How to use this
-    * `Justfiles`
-    * Helm charts structure
-    * System chart
-    * Operator chart
+Following is what it does:
+* Creation of k8s clusters using opentofu and terragrunt
+* Automatically manages configurations for different environments using `safehelm`
+* Automatically uses encrypted secrets. 
+* Exposes a commands for standard operations 
+* Creates a standard structure for your infra code repository.
 
 # Usage
 This repository provides a framework for setting up Kubernetes clusters and managing applications using Helm charts, Terraform. Here is how to use it.
@@ -62,6 +16,24 @@ This repository provides a framework for setting up Kubernetes clusters and mana
 ```
 curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/malayh/k8s-iac-framework/main/scripts/setup.sh | bash
 ```
+3. Configure your tools
+   * Setup your AWS credentials
+   * Create terraform state bucket. Run `./scripts/setup_statebucket.sh bucket-name region`
+   * Create KMS key and add your user to the key.
+4. Edit configurations in `.env` file
+5. Create environment to your need.
+   * See `environments/stag/terragrunt.hcl` and `environments/common/terragrunt.hcl` for examples.
+   * Run `just all` to create cluster and other resources. 
+6. Configure kubectl to point to your cluser
+   * Run `aws eks --region <region> update-kubeconfig --name <cluster-name>`
+   * Verify the cluster is configured by running `kubectl get nodes`
+7. Install system components
+   * Update `charts/system/map.json` file to use your cluster
+   * `cd charts/system && just setns && just install`
+8. Install operators (optional)
+   * Update `charts/operators/map.json` file to use your cluster
+   * `cd charts/operators && just setns && just install`
+9. Create charts for your backend: Follow instructions here: [How to run your apps](#how-to-run-your-apps)
 
 # Tools and concepts
 The project uses `helm`, `just`, `sops`, `tofu`, `terragrunt`, `kubectl` and `aws`. 
