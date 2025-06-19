@@ -60,9 +60,9 @@
 The project uses `helm`, `just`, `sops`, `tofu`, `terragrunt`, `kubectl` and `aws`. 
 
 ## `safehelm`
-It is thin wrapper around helm. It 
+It is thin wrapper around helm.
 
-   * It binds a value file to a k8s cluster and namespace. It is so that if you have multiple clusters configured for `kubectl`, you don't accidentally apply changes to the wrong cluster.
+   * It binds a value file to a k8s cluster and namespace. So that if you have multiple clusters configured for `kubectl`, you don't accidentally apply changes to the wrong cluster.
    * `safehelm` expects a `map.json` file in the root for of the chart directory that maps a cluster and specific namespace to a value file. The following is an example of the `map.json` file. It binds the `values.prod.yaml` file to the `ingress-nginx` namespace in the `prod-cluster` cluster and binds a different file for stage cluster. 
    ```json
    {
@@ -128,9 +128,37 @@ The `charts/operators` chart is sets up operators for your cluster. It is expete
 * Define a `valuefiles/values.<env>.yaml` file to override the default values for a specific environment.
 * `just install` to install the operators.
 
+## How to run your apps
+You define your app's chart in `charts/<app-name>` directory. The structure of the chart is the same as any helm chart with a few additions. Here is the intended structure of a chart. You cd into the chart directory and run `just install` to install the app.
 
+```
+├── charts/my-app-backend/       
+├── Justfile             # Justfile for the app to manage app lifecycles
+├── maps.json            # Maps k8s cluster and namespace
+├── .sops.yaml           # Sops config file to manage secrets
+├── Chart.yaml           # Helm chart metadata file
+├── values.yaml          # Default values file for the app
+├── valuefiles/          # Environment specific values files
+├── templates/           # Helm templates for the app
+```
+`maps.json`, `Justfile`, `valuefiles` dir, `.sops.yaml` are non-standard things in this chart.
+* `maps.json` - This file maps a k8s cluster and namespace to a value file. It is used by `safehelm` to bind the value file to the cluster and namespace. See the `safehelm` section for more details.
+* `Justfile` - This file is used to manage the app lifecycle. It contains commands. This file inherits from `charts/Justfile`. See `charts/Justfile` to see the available commands.
+* `.sops.yaml` - This file is used to manage secrets using `sops`. Make sure `encrypted_regex` covers all the fields you want encrypted. See `charts/nocodb-example/.sops.yaml` for an example.
+* `valuefiles` - This directory contains environment specific values files. The `maps.json` file maps the k8s cluster and namespace to a value file in this directory.
 
+### How to create a new environment specific values file.
+You must never put secrets in the default `values.yaml` file. Because this file remains unencrypted. Think of this file as the default values for the app regardless of the environment. 
 
+Here are the steps to create a new environment specific values file:
+* Create a new file `valuefiles/values.<env>.yaml` file
+* Put your secrets in it and `just sops-lock valuefiles/values.<env>.yaml` to encrypt it. 
+* Update you `maps.json` file to map the k8s cluster and namespace to the new value file.
+* Run `just install` to install the app with the new values file.
+* Commit the changes to git
+* Run `sops edit valuefiles/values.<env>.yaml` to edit the file in an editor of your choice. This will decrypt the file, open it in the editor and re-encrypt it when you save and close the editor.
+
+See the `charts/nocodb-example` for example.
 
 
 
